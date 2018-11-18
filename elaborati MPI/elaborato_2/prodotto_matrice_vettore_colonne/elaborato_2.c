@@ -73,7 +73,7 @@ int main(int argc, char *argv[])
 		//Allocazione matrice da distribuire
 		data_matrice = (double*)malloc(m*n * sizeof(double));
 		for (i = 0; i < m; i++) {
-			matrice[i] = &(data_matrice[i*n]);
+			matrice[i] = &(data_matrice[i*(int)n]);
 		}
 
 		//Inizializzazione matrice da distribuire
@@ -112,7 +112,7 @@ int main(int argc, char *argv[])
 
 		for (i = 0; i < numprocs; i++) {
 
-			if (i < (n%numprocs)) {
+			if (i < ((int)n%numprocs)) {
 				//Devo ricevere i+1 elementi
 				dimRecvCol[i] = (int)(n / numprocs + 1);
 			}
