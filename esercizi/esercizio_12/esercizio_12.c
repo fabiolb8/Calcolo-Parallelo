@@ -15,8 +15,9 @@ int main(int argc, char *argv[])
 	int i, j;
 	float k;
 	char processor_name[MPI_MAX_PROCESSOR_NAME];
-	float** matrice;
-	float** sotto_matrice;
+	float** matrice=NULL;
+	float** sotto_matrice=NULL;
+	float *data_matrice=NULL,*data_sotto_matrice=NULL;
 
 	MPI_Init(&argc, &argv);
 	MPI_Comm_size(MPI_COMM_WORLD, &numprocs);
@@ -55,12 +56,18 @@ int main(int argc, char *argv[])
 
 
 	printf("Ciao sono il processo %d e mi chiamo %s\n", myrank, processor_name);
-		
+	matrice = (float**)malloc(n * sizeof(float*));	
 
 	if (myrank == 0) {
 		
 		//Allocazione matrice da distribuire
-		matrice = allocaMatrice(n,n);
+		//matrice = allocaMatrice(n,n);
+		
+		//Allocazione matrice da distribuire
+		data_matrice = (float*)malloc(n*n * sizeof(float));
+		for (i = 0; i < n; i++) {
+			matrice[i] = &(data_matrice[i*n]);
+		}
 
 		//Inizializzazione matrice da distribuire
 		k = 1.0;
@@ -79,11 +86,16 @@ int main(int argc, char *argv[])
 
 
 	//Allocazione sotto_matrice in cui ricevere in tutti i processi
-	sotto_matrice = allocaMatrice(n,n/numprocs);
-	
+	//sotto_matrice = allocaMatrice(n,n/numprocs);
+	//Allocazione sotto_matrice in cui ricevere in tutti i processi
+	data_sotto_matrice = (float*)malloc((n/numprocs) *n* sizeof(float));
+	sotto_matrice = (float**)malloc(n * sizeof(float*));
+	for (i = 0; i < n; i++) {
+		sotto_matrice[i] = &(data_sotto_matrice[i*(n/numprocs)]);
+	}
 	
 	//Scatter
-	MPI_Scatter(&matrice[0][0], 1, acoltype, &sotto_matrice[0][0], n*n/numprocs, MPI_FLOAT, 0, MPI_COMM_WORLD);
+	MPI_Scatter(&matrice[0][0], 1, acoltype, &sotto_matrice[0][0], n*(n/numprocs), MPI_FLOAT, 0, MPI_COMM_WORLD);
 
 	
 	//Stampa in ordine
@@ -102,11 +114,18 @@ int main(int argc, char *argv[])
 	//Libero la memoria nel processo root
 	if (myrank == 0) {
 		free(matrice);
+		matrice=NULL;
+		free(data_matrice);
+		data_matrice=NULL;
 	}
 
 	
 	//Libero la memoria in tutti i processi
 	free(sotto_matrice);
+	sotto_matrice=NULL;
+	free(data_sotto_matrice);
+	data_sotto_matrice=NULL;
+	
 	MPI_Type_free(&acol);
 	MPI_Type_free(&acoltype);
 
@@ -133,7 +152,6 @@ void printMat(float** data, int r, int c, int rank) {
 		printf("\n");
 	}
 }
-
 
 
 float **allocaMatrice(int r, int c){
