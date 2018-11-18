@@ -1,0 +1,58 @@
+------------------------------------------------------
+ This job is allocated on 4 cpu(s)
+Job is running on node(s): 
+wn273.scope.unina.it
+wn273.scope.unina.it
+wn273.scope.unina.it
+wn273.scope.unina.it
+------------------------------------------------------
+PBS: qsub is running on ui-studenti.scope.unina.it
+PBS: originating queue is studenti
+PBS: executing queue is studenti
+PBS: working directory is /homes/DIS/CALCPAR/2019/M63000769/esercizi/esercizio_13
+PBS: execution mode is PBS_BATCH
+PBS: job identifier is 3922274.torque02.scope.unina.it
+PBS: job name is esercizio_13
+PBS: node file is /var/spool/pbs/aux//3922274.torque02.scope.unina.it
+PBS: current home directory is /homes/DIS/CALCPAR/2019/M63000769
+PBS: PATH = /usr/lib64/openmpi/1.2.7-gcc/bin:/usr/kerberos/bin:/opt/exp_soft/unina.it/intel/composer_xe_2013_sp1.3.174/bin/intel64:/opt/exp_soft/unina.it/intel/composer_xe_2013_sp1.3.174/mpirt/bin/intel64:/opt/exp_soft/unina.it/intel/composer_xe_2013_sp1.3.174/bin/intel64:/opt/exp_soft/unina.it/intel/composer_xe_2013_sp1.3.174/bin/intel64_mic:/opt/exp_soft/unina.it/intel/composer_xe_2013_sp1.3.174/debugger/gui/intel64:/opt/d-cache/srm/bin:/opt/d-cache/dcap/bin:/opt/edg/bin:/opt/glite/bin:/opt/globus/bin:/opt/lcg/bin:/usr/local/bin:/bin:/usr/bin:/opt/exp_soft/HADOOP/hadoop-1.0.3/bin:/opt/exp_soft/unina.it/intel/composerxe/bin/intel64/:/opt/exp_soft/unina.it/MPJExpress/mpj-v0_38/bin:/homes/DIS/CALCPAR/2019/M63000769/bin
+------------------------------------------------------
+Eseguo: /usr/lib64/openmpi/1.4-gcc/bin/mpicc -o /homes/DIS/CALCPAR/2019/M63000769/esercizi/esercizio_13/esercizio_13 /homes/DIS/CALCPAR/2019/M63000769/esercizi/esercizio_13/esercizio_13.c
+Eseguo: /usr/lib64/openmpi/1.4-gcc/bin/mpiexec -machinefile /var/spool/pbs/aux//3922274.torque02.scope.unina.it -np 4 /homes/DIS/CALCPAR/2019/M63000769/esercizi/esercizio_13/esercizio_13
+Ciao sono il processo 0 e mi chiamo wn273.scope.unina.it
+Sono il processo 0 e stampo matrice r=4 x c=10: 
+Ciao sono il processo 2 e mi chiamo wn273.scope.unina.it
+Ciao sono il processo 3 e mi chiamo wn273.scope.unina.it
+Riga 0: 1.000000 	2.000000 	3.000000 	4.000000 	5.000000 	6.000000 	7.000000 	8.000000 	9.000000 	10.000000 	
+Riga 1: 11.000000 	12.000000 	13.000000 	14.000000 	15.000000 	16.000000 	17.000000 	18.000000 	19.000000 	20.000000 	
+Riga 2: 21.000000 	22.000000 	23.000000 	24.000000 	25.000000 	26.000000 	27.000000 	28.000000 	29.000000 	30.000000 	
+Riga 3: 31.000000 	32.000000 	33.000000 	34.000000 	35.000000 	36.000000 	37.000000 	38.000000 	39.000000 	40.000000 	
+Ciao sono il processo 1 e mi chiamo wn273.scope.unina.it
+Sono il processo 0 e devo stampare la matrice di 4 righe e 3 colonne
+Sono il processo 0 e stampo matrice r=4 x c=3: 
+Riga 0: 1.000000 	2.000000 	3.000000 	
+Riga 1: 11.000000 	12.000000 	13.000000 	
+Riga 2: 21.000000 	22.000000 	23.000000 	
+Riga 3: 31.000000 	32.000000 	33.000000 	
+Processo 0: ho finito la stampa
+Sono il processo 1 e devo stampare la matrice di 4 righe e 3 colonne
+Sono il processo 1 e stampo matrice r=4 x c=3: 
+Riga 0: 4.000000 	5.000000 	6.000000 	
+Riga 1: 14.000000 	15.000000 	16.000000 	
+Riga 2: 24.000000 	25.000000 	26.000000 	
+Riga 3: 34.000000 	35.000000 	36.000000 	
+Processo 1: ho finito la stampa
+Sono il processo 2 e devo stampare la matrice di 4 righe e 2 colonne
+Sono il processo 2 e stampo matrice r=4 x c=2: 
+Riga 0: 7.000000 	8.000000 	
+Riga 1: 17.000000 	18.000000 	
+Riga 2: 27.000000 	28.000000 	
+Riga 3: 37.000000 	38.000000 	
+Processo 2: ho finito la stampa
+Sono il processo 3 e devo stampare la matrice di 4 righe e 2 colonne
+Sono il processo 3 e stampo matrice r=4 x c=2: 
+Riga 0: 9.000000 	10.000000 	
+Riga 1: 19.000000 	20.000000 	
+Riga 2: 29.000000 	30.000000 	
+Riga 3: 39.000000 	40.000000 	
+Processo 3: ho finito la stampa

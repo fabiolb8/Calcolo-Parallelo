@@ -7,7 +7,6 @@
 
 void printMat(float**, int, int, int);
 void printVett(int*, int, int);
-float **allocaMatrice(int, int);
 
 int main(int argc, char *argv[])
 {
@@ -16,8 +15,8 @@ int main(int argc, char *argv[])
 	int i, j;
 	float k;
 	char processor_name[MPI_MAX_PROCESSOR_NAME];
-	float** matrice;
-	float** sotto_matrice;
+	float** matrice=NULL;
+	float** sotto_matrice=NULL;
 	float *data_matrice,*data_sotto_matrice;
 	int *displs = NULL, *dimRecvCol = NULL;
 
@@ -26,6 +25,7 @@ int main(int argc, char *argv[])
 	MPI_Comm_rank(MPI_COMM_WORLD, &myrank);
 	MPI_Get_processor_name(processor_name, &namelen);
 	MPI_Status info;
+
 
 	//Controlli di robustezza delegati al processo 0
 	if (myrank == 0) {
@@ -55,8 +55,6 @@ int main(int argc, char *argv[])
 	if (myrank == 0) {
 
 		//Allocazione matrice da distribuire
-		//matrice = allocaMatrice(m, n);
-
 		data_matrice = (float*)malloc(m*n * sizeof(float));
 		for (i = 0; i < m; i++) {
 			matrice[i] = &(data_matrice[i*n]);
@@ -82,9 +80,6 @@ int main(int argc, char *argv[])
 	//Allocazione parametri per scatterv
 	dimRecvCol = (int*)calloc(numprocs, sizeof(int));
 	displs = (int*)calloc(numprocs, sizeof(int));
-
-
-
 
 	//Inizializzazione parametri per scatterv delegati al processo 0
 	if (myrank == 0) {
@@ -114,34 +109,27 @@ int main(int argc, char *argv[])
 	}
 
 
+	
 	//Broadcast
 	MPI_Bcast(dimRecvCol, numprocs, MPI_INT, 0, MPI_COMM_WORLD);
 	MPI_Bcast(displs, numprocs, MPI_INT, 0, MPI_COMM_WORLD);
+	
 
-	/*if (myrank == 0) {
-		printf("Stampa Displs\n");
-		printVett(displs, numprocs, myrank);
-		printf("Stampa dimRecvCol\n");
-		printVett(dimRecvCol, numprocs, myrank);
-	}*/
-
-	//Definizione nuovi tipi per la colonna
-	MPI_Datatype acol;
+	//Definizione nuovi tipi per la colonna da inviare
+	MPI_Datatype acol,acoltype;
 	MPI_Type_vector(m,1,n, MPI_FLOAT, &acol);
 	MPI_Type_commit(&acol);
-	MPI_Datatype acoltype;
 	MPI_Type_create_resized(acol, 0, 1 * sizeof(float), &acoltype);
 	MPI_Type_commit(&acoltype);
 
-	MPI_Datatype ccol;
+	//Definizione nuovi tipi per la colonna da ricevere
+	MPI_Datatype ccol,ccoltype;
 	MPI_Type_vector(m, 1, dimRecvCol[myrank], MPI_FLOAT, &ccol);
 	MPI_Type_commit(&ccol);
-	MPI_Datatype ccoltype;
 	MPI_Type_create_resized(ccol, 0, 1 * sizeof(float), &ccoltype);
 	MPI_Type_commit(&ccoltype);
 
 	//Allocazione sotto_matrice in cui ricevere in tutti i processi
-	//sotto_matrice = allocaMatrice(m, dimRecvCol[myrank] / m);
 	data_sotto_matrice = (float*)malloc(dimRecvCol[myrank] * m*sizeof(float));
 	sotto_matrice = (float**)malloc(m * sizeof(float*));
 	for (i = 0; i < m; i++) {
@@ -167,13 +155,26 @@ int main(int argc, char *argv[])
 	//Libero la memoria nel processo root
 	if (myrank == 0) {
 		free(matrice);
+		matrice = NULL;
+		free(data_matrice);
+		data_matrice = NULL;
 	}
 
 
 	//Libero la memoria in tutti i processi
 	free(sotto_matrice);
+	sotto_matrice = NULL;
+	free(data_sotto_matrice);
+	data_sotto_matrice = NULL;
+	free(displs);
+	displs = NULL;
+	free(dimRecvCol);
+	dimRecvCol = NULL;
+	
 	MPI_Type_free(&acol);
 	MPI_Type_free(&acoltype);
+	MPI_Type_free(&ccol);
+	MPI_Type_free(&ccoltype);
 
 	MPI_Finalize();
 	return 0;
@@ -197,21 +198,6 @@ void printMat(float** data, int r, int c, int rank) {
 		}
 		printf("\n");
 	}
-}
-
-
-
-float **allocaMatrice(int r, int c) {
-
-	int i;
-
-	float *data = (float*)malloc(r*c * sizeof(float));
-	float **array = (float**)malloc(r * sizeof(float*));
-
-	for (i = 0; i < r; i++)
-		array[i] = &(data[i*c]);
-
-	return array;
 }
 
 
