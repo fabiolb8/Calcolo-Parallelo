@@ -22,7 +22,7 @@ echo ' This job is allocated on '${NCPU}' cpu(s)'
 echo 'Job is running on node(s): '
 cat $PBS_NODEFILE
 
-PBS_O_WORKDIR=$PBS_O_HOME/elaborati/elaborato_2/prodotto_matrice_vettore_righe
+PBS_O_WORKDIR=$PBS_O_HOME/elaborati/elaborato_2/prodotto_matrice_vettore_colonne
 echo ------------------------------------------------------
 echo PBS: qsub is running on $PBS_O_HOST
 echo PBS: originating queue is $PBS_O_QUEUE

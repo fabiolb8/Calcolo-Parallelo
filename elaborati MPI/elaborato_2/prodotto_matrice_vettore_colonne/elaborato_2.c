@@ -1,45 +1,63 @@
 #include "mpi.h"
 #include <stdio.h>
+#include <math.h>
 #include <stdlib.h>
 
-#define numero_processori 4
-#define dim 8
-#define m dim
-#define n dim
+#define m 7
+#define n 8
+#define dim_vett 8
 
-void printMat(float**, int, int, int);
-void printVett(int*, int, int);
+void printMat(double**, int, int, int);
+void printVett(double*, int, int);
+void prodottoMatriceVettore(double**, int, int, double*, double*);
 
 int main(int argc, char *argv[])
 {
 	int myrank, numprocs;
 	int namelen;
 	int i, j;
-	float k;
+	double k;
 	char processor_name[MPI_MAX_PROCESSOR_NAME];
-	float* data_matrice = NULL;
-	float* data_sotto_matrice = NULL;
-	float** matrice = NULL;
-	float** sotto_matrice = NULL;
-	//int *displs=NULL,*dimRecv=NULL;
+	double** matrice=NULL;
+	double** sotto_matrice=NULL;
+	double *data_matrice,*data_sotto_matrice;
+	double *risultato, *risultato_parziale;
+	double *vettore, *vettore_parziale;
+	double t1, t2;
+	int *displs = NULL, *dimRecvCol = NULL;
 
 	MPI_Init(&argc, &argv);
 	MPI_Comm_size(MPI_COMM_WORLD, &numprocs);
 	MPI_Comm_rank(MPI_COMM_WORLD, &myrank);
 	MPI_Get_processor_name(processor_name, &namelen);
-	//MPI_Status info;
+	MPI_Status info;
 
-	MPI_Datatype acol, acoltype;
-	MPI_Type_vector(n, n/numprocs, n, MPI_FLOAT, &acol);
-	MPI_Type_commit(&acol);
-	MPI_Type_create_resized(acol, 0, (n/numprocs)*sizeof(float), &acoltype);
-	MPI_Type_commit(&acoltype);
 
 	//Controlli di robustezza delegati al processo 0
 	if (myrank == 0) {
 
-		if (numprocs != numero_processori) {
-			printf("Errore! Il numero dei processi deve essere pari a %d\n", numero_processori);
+		if (numprocs <= 0) {
+			printf("Errore! Il numero dei processi deve essere positivo\n");
+			MPI_Abort(MPI_COMM_WORLD, 1);
+		}
+
+		if ((floor((double)m) != (double)m) || (floor((double)n) != (double)n) || (floor((double)dim_vett) != (double)dim_vett)) {
+			printf("Errore! Le dimensioni della matrice e del vettore devono essere valori interi\n");
+			MPI_Abort(MPI_COMM_WORLD, 1);
+		}
+
+		if (m <= 0 || n <= 0 || dim_vett <= 0) {
+			printf("Errore! Le dimensioni dei dati di input non sono valori positivi.\n");
+			MPI_Abort(MPI_COMM_WORLD, 1);
+		}
+
+		if (n < numprocs) {
+			printf("Errore! La dimensione di colonna della matrice è inferiore al numero di processori.\n");
+			MPI_Abort(MPI_COMM_WORLD, 1);
+		}
+
+		if (n != dim_vett) {
+			printf("Errore! Le dimensioni non sono coerenti\n");
 			MPI_Abort(MPI_COMM_WORLD, 1);
 		}
 
@@ -48,141 +66,169 @@ int main(int argc, char *argv[])
 
 
 	printf("Ciao sono il processo %d e mi chiamo %s\n", myrank, processor_name);
-	matrice = (float**)malloc(n*sizeof(float*));
-
+	matrice = (double**)malloc(m * sizeof(double*));
 
 	if (myrank == 0) {
 
-		data_matrice = (float*)malloc(n*n*sizeof(float));
-		for (i = 0; i < n; i++) {
-
+		//Allocazione matrice da distribuire
+		data_matrice = (double*)malloc(m*n * sizeof(double));
+		for (i = 0; i < m; i++) {
 			matrice[i] = &(data_matrice[i*n]);
 		}
 
-		k = 0.0;
-		for (i = 0; i < n; i++) {
+		//Inizializzazione matrice da distribuire
+		for (i = 0; i < m; i++) {
 			for (j = 0; j < n; j++) {
 
-				matrice[i][j] = 1.0;
+				matrice[i][j] = (double) i +1.0;
 			}
 		}
 
-		printMat(matrice, n, n, myrank);
+		printMat(matrice, m, n, myrank);
+		
+		//Allocazione vettore
+		vettore = (double*)malloc(dim_vett * sizeof(double));
+		for (i = 0; i < dim_vett; i++) {
+			vettore[i] = M_PI;
+		}
+		
+		//Allocazione vettore risultato
+		risultato = (double*)malloc(m * sizeof(double));
+
 	}
 
-	/*dimRecv=(int*)calloc(numprocs,sizeof(int));
-	displs=(int*)calloc(numprocs,sizeof(int));
+
+	MPI_Barrier(MPI_COMM_WORLD);
+
+
+	//Allocazione parametri per scatterv
+	dimRecvCol = (int*)calloc(numprocs, sizeof(int));
+	displs = (int*)calloc(numprocs, sizeof(int));
 
 	//Inizializzazione parametri per scatterv delegati al processo 0
-	if (myrank == 0){
+	if (myrank == 0) {
 
-		for (i=0; i<numprocs; i++){
+		//Inizializzazione dimRecvCol
 
-			if(i<(m%numprocs)){
+		for (i = 0; i < numprocs; i++) {
+
+			if (i < (n%numprocs)) {
 				//Devo ricevere i+1 elementi
-				dimRecv[i]=(int) (m/numprocs+1)*n;
+				dimRecvCol[i] = (int)(n / numprocs + 1);
 			}
-			else{
-				 //Devo ricevere i elementi
-				dimRecv[i]=(int) (m/numprocs)*n;
+			else {
+				//Devo ricevere i elementi
+				dimRecvCol[i] = (int)(n / numprocs);
 			}
 		}
+
 
 		//Inizializzazione displs
 
-		displs[0]=0;
-		for (i=1; i<numprocs; i++){
+		displs[0] = 0;
+		for (i = 1; i < numprocs; i++) {
 
-			displs[i]=displs[i-1]+dimRecv[i-1];
+			displs[i] = displs[i - 1] + dimRecvCol[i - 1];
 		}
-
-		printVett(dimRecv, numprocs, myrank);
-		printVett(displs, numprocs,myrank);
 	}
-
-	*/
-	MPI_Barrier(MPI_COMM_WORLD);
-
 
 	//Broadcast
-	//MPI_Bcast(dimRecv, numprocs, MPI_INT, 0, MPI_COMM_WORLD);
-	//MPI_Bcast(displs, numprocs, MPI_INT, 0, MPI_COMM_WORLD);
+	MPI_Bcast(dimRecvCol, numprocs, MPI_INT, 0, MPI_COMM_WORLD);
+	MPI_Bcast(displs, numprocs, MPI_INT, 0, MPI_COMM_WORLD);
+	
+	//Allocazione vettori per tutti i processi
+	vettore_parziale = (double*) malloc (dimRecvCol[myrank]*sizeof(double));
+	risultato_parziale = (double*) malloc (m*sizeof(double));
 
-	//Allocazione matrice in cui ricevere
-	/*data_sotto_matrice = (float*) malloc (dimRecv[myrank]*sizeof(float));
-	sotto_matrice = (float**) malloc (dimRecv[myrank]/n*sizeof(float*));
+	//Definizione nuovi tipi per la colonna da inviare
+	MPI_Datatype acol,acoltype;
+	MPI_Type_vector(m,1,n, MPI_DOUBLE, &acol);
+	MPI_Type_commit(&acol);
+	MPI_Type_create_resized(acol, 0, 1 * sizeof(double), &acoltype);
+	MPI_Type_commit(&acoltype);
 
-	for (i=0; i<dimRecv[myrank]/n; i++){
+	//Definizione nuovi tipi per la colonna da ricevere
+	MPI_Datatype ccol,ccoltype;
+	MPI_Type_vector(m, 1, dimRecvCol[myrank], MPI_DOUBLE, &ccol);
+	MPI_Type_commit(&ccol);
+	MPI_Type_create_resized(ccol, 0, 1 * sizeof(double), &ccoltype);
+	MPI_Type_commit(&ccoltype);
 
-		sotto_matrice[i]=&(data_sotto_matrice[i*n]);
-	}*/
-	data_sotto_matrice = (float*)malloc(n*(n/numprocs)*sizeof(float));
-	sotto_matrice = (float**)malloc(n*sizeof(float*));
-
-	for (i = 0; i < n; i++) {
-
-		sotto_matrice[i] = &(data_sotto_matrice[i*n]);
+	//Allocazione sotto_matrice in cui ricevere in tutti i processi
+	data_sotto_matrice = (double*)malloc(dimRecvCol[myrank] * m*sizeof(double));
+	sotto_matrice = (double**)malloc(m * sizeof(double*));
+	for (i = 0; i < m; i++) {
+		sotto_matrice[i] = &(data_sotto_matrice[i*(dimRecvCol[myrank])]);
 	}
 
-	//Stampa in ordine
-	for (i = 0; i < numprocs; i++) {
+	//Scatterv del vettore
+	MPI_Scatterv(&vettore[0], dimRecvCol, displs, MPI_DOUBLE, &vettore_parziale[0], dimRecvCol[myrank], MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
-		if (myrank == i) {
-
-			printMat(sotto_matrice, n, n / numprocs, i);
-			printf("Processo %d: ho finito la stampa\n", i);
-
-		}
-		MPI_Barrier(MPI_COMM_WORLD);
+	//Scatterv della matrice
+	MPI_Scatterv(&matrice[0][0], dimRecvCol, displs, acoltype, &sotto_matrice[0][0], dimRecvCol[myrank]*m, ccoltype, 0, MPI_COMM_WORLD);
+	
+	if (myrank == 0) {
+		//Inizio tempo
+		t1 = MPI_Wtime();
 	}
 
-	MPI_Barrier(MPI_COMM_WORLD);
+	//Prodotto matrice vettore in parallelo
+	prodottoMatriceVettore(sotto_matrice, m, dimRecvCol[myrank], vettore_parziale, risultato_parziale);
 
-	//Scatter
-	//MPI_Scatterv(&matrice[0][0], dimRecv, displs, MPI_FLOAT, &sotto_matrice[0][0], dimRecv[myrank], MPI_FLOAT,0,MPI_COMM_WORLD);
-	MPI_Scatter(&matrice[0][0], 1, acoltype, &sotto_matrice[0][0], n*(n/numprocs), MPI_FLOAT, 0, MPI_COMM_WORLD);
+	//Reduce per il risultato in root
+	MPI_Reduce(risultato_parziale, risultato, m, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
 
-	printf("Sono il processo %d e devo stampare la matrice di %d righe e %d colonne\n", myrank, n, n / numprocs);
+	//Stampa risultato finale
+	if (myrank == 0) {
 
-	MPI_Barrier(MPI_COMM_WORLD);
+		//Fine tempo
+		t2 = MPI_Wtime();
 
-	//Stampa in ordine
-	for (i = 0; i < numprocs; i++) {
-
-		if (myrank == i) {
-
-			printMat(sotto_matrice, n, n / numprocs, i);
-			printf("Processo %d: ho finito la stampa\n", i);
-
-		}
-		MPI_Barrier(MPI_COMM_WORLD);
+		printf("Sono il processo %d. Il vettore risultato di %d righe è :\n", myrank, m);
+		printVett(risultato, m, myrank);
+		printf("\nSono il processo %d: tempo di esecuzione totale di %.16lf secondi.\n", myrank, t2 - t1);
 	}
 
 
+	//Libero la memoria nel processo root
 	if (myrank == 0) {
 		free(matrice);
 		matrice = NULL;
 		free(data_matrice);
 		data_matrice = NULL;
+		free(vettore);
+		vettore = NULL;
+		free(risultato);
+		risultato = NULL;
 	}
 
+
+	//Libero la memoria in tutti i processi
 	free(sotto_matrice);
 	sotto_matrice = NULL;
+	free(risultato_parziale);
+	risultato_parziale = NULL;
+	free(vettore_parziale);
+	vettore_parziale = NULL;
 	free(data_sotto_matrice);
 	data_sotto_matrice = NULL;
-	/*free(displs);
-	displs=NULL;
-	free(dimRecv);
-	dimRecv=NULL;*/
-
+	free(displs);
+	displs = NULL;
+	free(dimRecvCol);
+	dimRecvCol = NULL;
+	
 	MPI_Type_free(&acol);
 	MPI_Type_free(&acoltype);
+	MPI_Type_free(&ccol);
+	MPI_Type_free(&ccoltype);
 
 	MPI_Finalize();
 	return 0;
 }
 
-void printMat(float** data, int r, int c, int rank) {
+
+
+void printMat(double** data, int r, int c, int rank) {
 
 	int i = 0, j = 0;
 
@@ -194,22 +240,37 @@ void printMat(float** data, int r, int c, int rank) {
 
 		for (j = 0; j < c; j++) {
 
-			printf("%f  ", data[i][j]);
+			printf("%f \t", data[i][j]);
 		}
 		printf("\n");
 	}
 }
 
-void printVett(int* array, int c, int rank) {
+void printVett(double* vett, int dim, int myrank){
 
 	int i;
 
-	printf("Stampa array del processo %d: ", rank);
-
-	for (i = 0; i < c; i++) {
-
-		printf("%d  ", array[i]);
+	for (i = 0;i < dim;i++) {
+		
+		printf("%.16lf \n", vett[i]);
+		
 	}
-	printf("\n");
 
+	printf("\n");
+}
+
+void prodottoMatriceVettore(double** matrice, int r, int c, double* vettore, double* risultato) {
+
+	int i, j;
+
+	for (i = 0; i < r; i++) {
+
+		risultato[i] = 0.0;
+
+		for (j = 0; j < c; j++) {
+
+			risultato[i] = risultato[i] + matrice[i][j] * vettore[j];
+
+		}
+	}
 }
