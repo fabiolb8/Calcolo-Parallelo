@@ -2,9 +2,9 @@
 
 warning('OFF', 'MATLAB:table:ModifiedAndSavedVarnames');
 p=[2,4,8,16];
-tabella_efficienza_rmaggc = readtable('test_valutazione_elab2_prodotto_righe.xlsx', 'Range', 'B25:E29','ReadRowName', true);
-tabella_efficienza_requc = readtable('test_valutazione_elab2_prodotto_righe.xlsx', 'Range', 'B31:E35','ReadRowName', true);
-tabella_efficienza_rminc = readtable('test_valutazione_elab2_prodotto_righe.xlsx', 'Range', 'B37:E41','ReadRowName', true);
+tabella_efficienza_rmaggc = readtable('test_valutazione_elab2_prodotto_colonne.xlsx', 'Range', 'B25:E29','ReadRowName', true);
+tabella_efficienza_requc = readtable('test_valutazione_elab2_prodotto_colonne.xlsx', 'Range', 'B31:E35','ReadRowName', true);
+tabella_efficienza_rminc = readtable('test_valutazione_elab2_prodotto_colonne.xlsx', 'Range', 'B37:E41','ReadRowName', true);
 eff = imread('efficienza.png');
 figure(1)
 imshow(eff)

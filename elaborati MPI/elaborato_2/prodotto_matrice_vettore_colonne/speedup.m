@@ -2,9 +2,9 @@
 
 warning('OFF', 'MATLAB:table:ModifiedAndSavedVarnames');
 p=[2,4,8,16];
-tabella_speedup_rmaggc = readtable('test_valutazione_elab2_prodotto_righe.xlsx', 'Range', 'B4:E8','ReadRowName', true);
-tabella_speedup_requc = readtable('test_valutazione_elab2_prodotto_righe.xlsx', 'Range', 'B10:E14','ReadRowName', true);
-tabella_speedup_rminc = readtable('test_valutazione_elab2_prodotto_righe.xlsx', 'Range', 'B16:E20','ReadRowName', true);
+tabella_speedup_rmaggc = readtable('test_valutazione_elab2_prodotto_colonne.xlsx', 'Range', 'B4:E8','ReadRowName', true);
+tabella_speedup_requc = readtable('test_valutazione_elab2_prodotto_colonne.xlsx', 'Range', 'B10:E14','ReadRowName', true);
+tabella_speedup_rminc = readtable('test_valutazione_elab2_prodotto_colonne.xlsx', 'Range', 'B16:E20','ReadRowName', true);
 speedup_img = imread('speedup.png');
 figure(1)
 imshow(speedup_img)
