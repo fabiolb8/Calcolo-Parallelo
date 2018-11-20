@@ -28,6 +28,7 @@ int main(int argc, char *argv[])
 	MPI_Comm griglia;
 	MPI_Init(&argc, &argv);
 	MPI_Comm_size(MPI_COMM_WORLD, &numprocs);
+	MPI_Comm_rank(MPI_COMM_WORLD, &myrank);
 	
 	//Controlli di robustezza delegati al processo 0
 	if (myrank == 0) {
@@ -35,7 +36,7 @@ int main(int argc, char *argv[])
 		//Controllo numprocs coerente con definizione griglia
 		;
 
-		valore_medie = (float*) malloc (numprocs*sizeof(float));
+		
 
 	}
 	MPI_Barrier(MPI_COMM_WORLD);
@@ -54,6 +55,11 @@ int main(int argc, char *argv[])
 		}
 		MPI_Barrier(griglia);
 	}
+	
+	if(myrank==0){
+		valore_medie = (float*) malloc (numprocs*sizeof(float));
+	}
+	
 	
 	//Inizializzazione valore da distribuire
 	mio_valore = myrank;
@@ -89,11 +95,10 @@ int main(int argc, char *argv[])
 
 		if (myrank == i) {
 			printf("Ciao sono il processo %d. La media dei rank dei miei vicini e' %f\n", myrank, media);
-
 		}
 		MPI_Barrier(griglia);
 	}
-	MPI_Barrier(griglia);
+	//MPI_Barrier(griglia);
 	
 	
 	//Mando tutto a 0
@@ -101,12 +106,20 @@ int main(int argc, char *argv[])
 
 	if (myrank==0){
 		
-		for (i = 0; i < numprocs; i++) {
-			;//printf("Ciao sono il processo %d. La media i e' %f\n", myrank, valore_medie[i]);
-		}
+		
+		printf("Ciao sono il processo %d. Le medie sono i : ", myrank);
+		
+		for (i = 0; i < numprocs; i++)
+			printf("\t%f",valore_medie[i]);
+		
+		printf("\n");
+		
+		//MPI_Barrier(griglia);
 	}
 
 	//Libero la memoria nel processo root
+	if(myrank==0)
+		free(valore_medie);
 
 	//Libero la memoria in tutti i processi
 	
