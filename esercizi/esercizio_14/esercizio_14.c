@@ -20,12 +20,11 @@ int main(int argc, char *argv[])
 	int mio_valore;
 	int coords[dim];
 	int dims[dim]={3,3};
-	//int periods[dim]={1,1};		//Caso periodico
-	int periods[dim]={0,0};			//Caso non periodico
+	int periods[dim]={1,1};				//Caso griglia periodica
+	//int periods[dim]={0,0};			//Caso griglia non periodica
 	int vicini[num_vicini];
 	float* valore_medie;
 
-	MPI_Comm griglia;
 	MPI_Init(&argc, &argv);
 	MPI_Comm_size(MPI_COMM_WORLD, &numprocs);
 	MPI_Comm_rank(MPI_COMM_WORLD, &myrank);
@@ -34,13 +33,16 @@ int main(int argc, char *argv[])
 	if (myrank == 0) {
 
 		//Controllo numprocs coerente con definizione griglia
-		;
-
-		
-
+		if(numprocs!=9){
+			printf("Errore! Il numero dei processi deve essere 9\n");
+			MPI_Abort(MPI_COMM_WORLD, 1);
+		}
 	}
+	
 	MPI_Barrier(MPI_COMM_WORLD);
 	
+	//Definizione griglia di processi 9x9
+	MPI_Comm griglia;
 	MPI_Cart_create(MPI_COMM_WORLD, dim, dims, periods, 0, &griglia);
 	MPI_Comm_rank(griglia, &myrank);
 	MPI_Cart_coords(griglia, myrank, dim, coords);
@@ -64,7 +66,7 @@ int main(int argc, char *argv[])
 	//Inizializzazione valore da distribuire
 	mio_valore = myrank;
 
-	//Get vicini
+	//Get rank dei miei vicini
 	MPI_Cart_shift(griglia, 0, 1, &vicini[up], &vicini[down]);
 	MPI_Cart_shift(griglia, 1, 1, &vicini[left], &vicini[right]);
 	
@@ -98,31 +100,26 @@ int main(int argc, char *argv[])
 		}
 		MPI_Barrier(griglia);
 	}
-	//MPI_Barrier(griglia);
 	
 	
-	//Mando tutto a 0
+	//Mando le medie a 0
 	MPI_Gather(&media, 1, MPI_FLOAT, valore_medie, 1, MPI_FLOAT, 0, griglia);
 
 	if (myrank==0){
 		
 		
-		printf("Ciao sono il processo %d. Le medie sono i : ", myrank);
+		printf("Ciao sono il processo %d. Le medie sono: ", myrank);
 		
 		for (i = 0; i < numprocs; i++)
-			printf("\t%f",valore_medie[i]);
+			printf("%f\n",valore_medie[i]);
 		
 		printf("\n");
 		
-		//MPI_Barrier(griglia);
 	}
 
 	//Libero la memoria nel processo root
 	if(myrank==0)
 		free(valore_medie);
-
-	//Libero la memoria in tutti i processi
-	
 
 	MPI_Finalize();
 	return 0;

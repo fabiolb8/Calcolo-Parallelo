@@ -1,0 +1,62 @@
+------------------------------------------------------
+ This job is allocated on 9 cpu(s)
+Job is running on node(s): 
+wn273.scope.unina.it
+wn273.scope.unina.it
+wn273.scope.unina.it
+wn273.scope.unina.it
+wn273.scope.unina.it
+wn273.scope.unina.it
+wn273.scope.unina.it
+wn273.scope.unina.it
+wn274.scope.unina.it
+------------------------------------------------------
+PBS: qsub is running on ui-studenti.scope.unina.it
+PBS: originating queue is studenti
+PBS: executing queue is studenti
+PBS: working directory is /homes/DIS/CALCPAR/2019/M63000769/esercizi/esercizio_14
+PBS: execution mode is PBS_BATCH
+PBS: job identifier is 3924373.torque02.scope.unina.it
+PBS: job name is esercizio_14
+PBS: node file is /var/spool/pbs/aux//3924373.torque02.scope.unina.it
+PBS: current home directory is /homes/DIS/CALCPAR/2019/M63000769
+PBS: PATH = /usr/lib64/openmpi/1.2.7-gcc/bin:/usr/kerberos/bin:/opt/exp_soft/unina.it/intel/composer_xe_2013_sp1.3.174/bin/intel64:/opt/exp_soft/unina.it/intel/composer_xe_2013_sp1.3.174/mpirt/bin/intel64:/opt/exp_soft/unina.it/intel/composer_xe_2013_sp1.3.174/bin/intel64:/opt/exp_soft/unina.it/intel/composer_xe_2013_sp1.3.174/bin/intel64_mic:/opt/exp_soft/unina.it/intel/composer_xe_2013_sp1.3.174/debugger/gui/intel64:/opt/d-cache/srm/bin:/opt/d-cache/dcap/bin:/opt/edg/bin:/opt/glite/bin:/opt/globus/bin:/opt/lcg/bin:/usr/local/bin:/bin:/usr/bin:/opt/exp_soft/HADOOP/hadoop-1.0.3/bin:/opt/exp_soft/unina.it/intel/composerxe/bin/intel64/:/opt/exp_soft/unina.it/MPJExpress/mpj-v0_38/bin:/homes/DIS/CALCPAR/2019/M63000769/bin
+------------------------------------------------------
+Eseguo: /usr/lib64/openmpi/1.4-gcc/bin/mpicc -o /homes/DIS/CALCPAR/2019/M63000769/esercizi/esercizio_14/esercizio_14 /homes/DIS/CALCPAR/2019/M63000769/esercizi/esercizio_14/esercizio_14.c
+Eseguo: /usr/lib64/openmpi/1.4-gcc/bin/mpiexec -machinefile /var/spool/pbs/aux//3924373.torque02.scope.unina.it -np 9 /homes/DIS/CALCPAR/2019/M63000769/esercizi/esercizio_14/esercizio_14
+Ciao sono il processo 0 e mi chiamo wn273.scope.unina.it. Le mie coordinate sono: (0, 0)
+Ciao sono il processo 1 e mi chiamo wn273.scope.unina.it. Le mie coordinate sono: (0, 1)
+Ciao sono il processo 2 e mi chiamo wn273.scope.unina.it. Le mie coordinate sono: (0, 2)
+Ciao sono il processo 3 e mi chiamo wn273.scope.unina.it. Le mie coordinate sono: (1, 0)
+Ciao sono il processo 4 e mi chiamo wn273.scope.unina.it. Le mie coordinate sono: (1, 1)
+Ciao sono il processo 5 e mi chiamo wn273.scope.unina.it. Le mie coordinate sono: (1, 2)
+Ciao sono il processo 6 e mi chiamo wn273.scope.unina.it. Le mie coordinate sono: (2, 0)
+Ciao sono il processo 7 e mi chiamo wn273.scope.unina.it. Le mie coordinate sono: (2, 1)
+Ciao sono il processo 0. I rank dei miei vicini sono U:6, D:3, L:2, R:1
+Ciao sono il processo 8 e mi chiamo wn274.scope.unina.it. Le mie coordinate sono: (2, 2)
+Ciao sono il processo 1. I rank dei miei vicini sono U:7, D:4, L:0, R:2
+Ciao sono il processo 2. I rank dei miei vicini sono U:8, D:5, L:1, R:0
+Ciao sono il processo 3. I rank dei miei vicini sono U:0, D:6, L:5, R:4
+Ciao sono il processo 4. I rank dei miei vicini sono U:1, D:7, L:3, R:5
+Ciao sono il processo 5. I rank dei miei vicini sono U:2, D:8, L:4, R:3
+Ciao sono il processo 6. I rank dei miei vicini sono U:3, D:0, L:8, R:7
+Ciao sono il processo 7. I rank dei miei vicini sono U:4, D:1, L:6, R:8
+Ciao sono il processo 0. La media dei rank dei miei vicini e' 2.400000
+Ciao sono il processo 8. I rank dei miei vicini sono U:5, D:2, L:7, R:6
+Ciao sono il processo 1. La media dei rank dei miei vicini e' 2.800000
+Ciao sono il processo 2. La media dei rank dei miei vicini e' 3.200000
+Ciao sono il processo 3. La media dei rank dei miei vicini e' 3.600000
+Ciao sono il processo 4. La media dei rank dei miei vicini e' 4.000000
+Ciao sono il processo 5. La media dei rank dei miei vicini e' 4.400000
+Ciao sono il processo 6. La media dei rank dei miei vicini e' 4.800000
+Ciao sono il processo 7. La media dei rank dei miei vicini e' 5.200000
+Ciao sono il processo 8. La media dei rank dei miei vicini e' 5.600000
+Ciao sono il processo 0. Le medie sono: 2.400000
+2.800000
+3.200000
+3.600000
+4.000000
+4.400000
+4.800000
+5.200000
+5.600000
