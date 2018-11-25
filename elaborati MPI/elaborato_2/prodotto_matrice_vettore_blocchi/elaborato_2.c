@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-#define q 3				//griglia 3x3
+#define q 3				//griglia qxq processi
 #define m 7
 #define n 8
 #define dim_vett 8
@@ -48,28 +48,32 @@ int main(int argc, char *argv[])
 			MPI_Abort(MPI_COMM_WORLD, 1);
 		}
 		
-		//q negativo
 		
-		//q non intero
-		
-		//Controllo numprocs coerente con definizione griglia
-		if (numprocs != q * q) {
-			printf("Errore! Il numero dei processi deve essere %d\n", q*q);
+		if (m <= 0 || n <= 0 || dim_vett <= 0 || q <= 0) {
+			printf("Errore! I parametri di ingresso non sono valori positivi.\n");
 			MPI_Abort(MPI_COMM_WORLD, 1);
 		}
-
+		
+		//q non intero
+		if (floor((double)q) != (double)q) {
+			printf("Errore! Il parametro q deve essere un valore intero\n");
+			MPI_Abort(MPI_COMM_WORLD, 1);
+		}
+		
+		
 		if ((floor((double)m) != (double)m) || (floor((double)n) != (double)n) || (floor((double)dim_vett) != (double)dim_vett)) {
 			printf("Errore! Le dimensioni della matrice e del vettore devono essere valori interi\n");
 			MPI_Abort(MPI_COMM_WORLD, 1);
 		}
-
-		if (m <= 0 || n <= 0 || dim_vett <= 0) {
-			printf("Errore! Le dimensioni dei dati di input non sono valori positivi.\n");
+		
+		//Controllo numprocs coerente con definizione griglia
+		if (numprocs != q * q) {
+			printf("Errore! Il numero dei processi deve essere il quadrato perfetto di q\n");
 			MPI_Abort(MPI_COMM_WORLD, 1);
 		}
 
-		if (n < numprocs) {
-			printf("Errore! La dimensione di colonna della matrice è inferiore al numero di processori.\n");
+		if (n < q) {
+			printf("Errore! La dimensione di colonna della matrice è inferiore alla dimensione q della griglia.\n");
 			MPI_Abort(MPI_COMM_WORLD, 1);
 		}
 
@@ -77,16 +81,16 @@ int main(int argc, char *argv[])
 			printf("Errore! Le dimensioni non sono coerenti\n");
 			MPI_Abort(MPI_COMM_WORLD, 1);
 		}
-
+	
 	}
 	MPI_Barrier(MPI_COMM_WORLD);
 
 	
 	//Definizione griglia di processi
 	MPI_Comm griglia;
-	MPI_Cart_create(MPI_COMM_WORLD, dimensioni, dims, periods, 0, &griglia);
+	MPI_Cart_create(MPI_COMM_WORLD, 2, dims, periods, 0, &griglia);
 	MPI_Comm_rank(griglia, &myrank);
-	MPI_Cart_coords(griglia, myrank, dimensioni, coords);
+	MPI_Cart_coords(griglia, myrank, 2, coords);
 	MPI_Get_processor_name(processor_name, &namelen);
 	MPI_Status info;
 
@@ -150,7 +154,7 @@ int main(int argc, char *argv[])
 		//Inizializzazione dimRecv_righe per scatterv
 		for (i = 0; i < q; i++) {
 
-			if (i < ((int)m%q)) {
+			if (i < ((int)m%(int)q)) {
 				//Devo ricevere i+1 elementi
 				dimRecv_righe[i] = (int)(m / q + 1)*n;
 			}
@@ -162,7 +166,7 @@ int main(int argc, char *argv[])
 
 		for (i = 0; i < q; i++) {
 
-			if (i < ((int)n%q)) {
+			if (i < ((int)n%(int)q)) {
 				//Devo ricevere i+1 elementi
 				dimRecv_colonne[i] = (int)(n / q + 1);
 			}
