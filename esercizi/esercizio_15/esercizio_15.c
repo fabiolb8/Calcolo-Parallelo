@@ -5,8 +5,8 @@
 
 #define dimensioni	2
 #define q 3		//griglia 3x3
-#define m 4
-#define n 4
+#define m 7
+#define n 8
 
 void printVett(int*, int, int);
 void printMat(double**, int, int, int);
@@ -17,6 +17,7 @@ int main(int argc, char *argv[])
 	int myrank, numprocs, myrank_col, myrank_row;
 	int namelen;
 	int i, j;
+	double k;
 	int somma, count;
 	float media;
 	char processor_name[MPI_MAX_PROCESSOR_NAME];
@@ -69,6 +70,8 @@ int main(int argc, char *argv[])
 	matrice = (double**)malloc(m * sizeof(double*));
 	if (myrank == 0) {
 
+		k=1.0;
+	
 		//Allocazione matrice da distribuire
 		data_matrice = (double*)malloc(m*n * sizeof(double));
 		for (i = 0; i < m; i++) {
@@ -79,7 +82,8 @@ int main(int argc, char *argv[])
 		for (i = 0; i < m; i++) {
 			for (j = 0; j < n; j++) {
 
-				matrice[i][j] = (double)i + 1.0;
+				//matrice[i][j] = (double)i + 1.0;
+				matrice[i][j] = k++;
 			}
 		}
 
@@ -181,11 +185,9 @@ int main(int argc, char *argv[])
 		}
 
 
-		//printMat(sotto_matrice_per_righe, dimRecv_righe[myrank], n, myrank);
-
-
 		MPI_Scatterv(&matrice[0][0], dimRecv_righe, displs_righe, MPI_DOUBLE, &sotto_matrice_per_righe[0][0], dimRecv_righe[myrank_col], MPI_DOUBLE, 0, col_comm);
-
+		
+		
 		printMat(sotto_matrice_per_righe, dimRecv_righe[myrank_col] / n, n, myrank);
 
 	}
@@ -221,6 +223,8 @@ int main(int argc, char *argv[])
 
 	MPI_Scatterv(&sotto_matrice_per_righe[0][0], dimRecv_colonne, displs_colonne, acoltype, &sotto_matrice_per_colonne_e_righe[0][0], dimRecv_colonne[myrank_row] * (dimRecv_righe[myrank_col] / n), ccoltype, 0, row_comm);
 
+	
+	
 	printMat(sotto_matrice_per_colonne_e_righe, dimRecv_righe[myrank_col] / n, dimRecv_colonne[myrank_row], myrank);
 
 
@@ -292,11 +296,11 @@ void printMat(double** data, int r, int c, int rank) {
 
 	for (i = 0; i < r; i++) {
 
-		printf("Riga %d: ", i);
+		printf("Processo %d, Riga %d : ", rank,i);
 
 		for (j = 0; j < c; j++) {
 
-			printf("%f \t", data[i][j]);
+			printf("%f  ", data[i][j]);
 		}
 		printf("\n");
 	}
