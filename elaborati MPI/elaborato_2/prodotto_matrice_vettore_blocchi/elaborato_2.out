@@ -1,0 +1,47 @@
+------------------------------------------------------
+ This job is allocated on 9 cpu(s)
+Job is running on node(s): 
+wn275.scope.unina.it
+wn275.scope.unina.it
+wn275.scope.unina.it
+wn275.scope.unina.it
+wn275.scope.unina.it
+wn275.scope.unina.it
+wn275.scope.unina.it
+wn275.scope.unina.it
+wn276.scope.unina.it
+------------------------------------------------------
+PBS: qsub is running on ui-studenti.scope.unina.it
+PBS: originating queue is studenti
+PBS: executing queue is studenti
+PBS: working directory is /homes/DIS/CALCPAR/2019/M63000769/elaborati/elaborato_2/prodotto_matrice_vettore_blocchi
+PBS: execution mode is PBS_BATCH
+PBS: job identifier is 3924608.torque02.scope.unina.it
+PBS: job name is elaborato_2
+PBS: node file is /var/spool/pbs/aux//3924608.torque02.scope.unina.it
+PBS: current home directory is /homes/DIS/CALCPAR/2019/M63000769
+PBS: PATH = /usr/lib64/openmpi/1.2.7-gcc/bin:/usr/kerberos/bin:/opt/exp_soft/unina.it/intel/composer_xe_2013_sp1.3.174/bin/intel64:/opt/exp_soft/unina.it/intel/composer_xe_2013_sp1.3.174/mpirt/bin/intel64:/opt/exp_soft/unina.it/intel/composer_xe_2013_sp1.3.174/bin/intel64:/opt/exp_soft/unina.it/intel/composer_xe_2013_sp1.3.174/bin/intel64_mic:/opt/exp_soft/unina.it/intel/composer_xe_2013_sp1.3.174/debugger/gui/intel64:/opt/d-cache/srm/bin:/opt/d-cache/dcap/bin:/opt/edg/bin:/opt/glite/bin:/opt/globus/bin:/opt/lcg/bin:/usr/local/bin:/bin:/usr/bin:/opt/exp_soft/HADOOP/hadoop-1.0.3/bin:/opt/exp_soft/unina.it/intel/composerxe/bin/intel64/:/opt/exp_soft/unina.it/MPJExpress/mpj-v0_38/bin:/homes/DIS/CALCPAR/2019/M63000769/bin
+------------------------------------------------------
+Eseguo: /usr/lib64/openmpi/1.4-gcc/bin/mpicc -o /homes/DIS/CALCPAR/2019/M63000769/elaborati/elaborato_2/prodotto_matrice_vettore_blocchi/elaborato_2 /homes/DIS/CALCPAR/2019/M63000769/elaborati/elaborato_2/prodotto_matrice_vettore_blocchi/elaborato_2.c
+Eseguo: /usr/lib64/openmpi/1.4-gcc/bin/mpiexec -machinefile /var/spool/pbs/aux//3924608.torque02.scope.unina.it -np 9 /homes/DIS/CALCPAR/2019/M63000769/elaborati/elaborato_2/prodotto_matrice_vettore_blocchi/elaborato_2
+Ciao sono il processo 0 e mi chiamo wn275.scope.unina.it. Le mie coordinate sono: (0, 0)
+Ciao sono il processo 1 e mi chiamo wn275.scope.unina.it. Le mie coordinate sono: (0, 1)
+Ciao sono il processo 2 e mi chiamo wn275.scope.unina.it. Le mie coordinate sono: (0, 2)
+Ciao sono il processo 3 e mi chiamo wn275.scope.unina.it. Le mie coordinate sono: (1, 0)
+Ciao sono il processo 4 e mi chiamo wn275.scope.unina.it. Le mie coordinate sono: (1, 1)
+Ciao sono il processo 5 e mi chiamo wn275.scope.unina.it. Le mie coordinate sono: (1, 2)
+Ciao sono il processo 6 e mi chiamo wn275.scope.unina.it. Le mie coordinate sono: (2, 0)
+Ciao sono il processo 7 e mi chiamo wn275.scope.unina.it. Le mie coordinate sono: (2, 1)
+Ciao sono il processo 8 e mi chiamo wn276.scope.unina.it. Le mie coordinate sono: (2, 2)
+Sono il processo 0. Il vettore risultato di 7 righe è :
+Sono il processo 0 , stampo il vettore di 7 elementi
+25.1327412287183449 
+50.2654824574366899 
+75.3982236861550348 
+100.5309649148733797 
+125.6637061435917104 
+150.7964473723100696 
+175.9291886010284145 
+
+
+Sono il processo 0: tempo di esecuzione totale di 0.0000300407409668 secondi.
