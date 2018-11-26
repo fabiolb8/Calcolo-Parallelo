@@ -2,9 +2,9 @@
 
 warning('OFF', 'MATLAB:table:ModifiedAndSavedVarnames');
 p=[2,4,8,16];
-tabella_tempi_rmaggc = readtable('test_valutazione_elab2_prodotto_colonne.xlsx', 'Range', 'B46:E50','ReadRowName', true);
-tabella_tempi_requc = readtable('test_valutazione_elab2_prodotto_colonne.xlsx', 'Range', 'B52:E56','ReadRowName', true);
-tabella_tempi_rminc = readtable('test_valutazione_elab2_prodotto_colonne.xlsx', 'Range', 'B58:E62','ReadRowName', true);
+tabella_tempi_rmaggc = readtable('test_valutazione_elab2_prodotto_blocchi.xlsx', 'Range', 'B40:E43','ReadRowName', true);
+tabella_tempi_requc = readtable('test_valutazione_elab2_prodotto_blocchi.xlsx', 'Range', 'B45:E48','ReadRowName', true);
+tabella_tempi_rminc = readtable('test_valutazione_elab2_prodotto_blocchi.xlsx', 'Range', 'B50:E53','ReadRowName', true);
 tempi_img = imread('tempi.png');
 figure(1)
 imshow(tempi_img)
