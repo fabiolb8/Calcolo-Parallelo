@@ -72,8 +72,8 @@ int main(int argc, char *argv[])
 			MPI_Abort(MPI_COMM_WORLD, 1);
 		}
 
-		if (n < q) {
-			printf("Errore! La dimensione di colonna della matrice è inferiore alla dimensione q della griglia.\n");
+		if (n < q || m < q) {
+			printf("Errore! N oppure M sono inferiori della dimensione q della griglia.\n");
 			MPI_Abort(MPI_COMM_WORLD, 1);
 		}
 
