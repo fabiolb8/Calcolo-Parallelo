@@ -16,6 +16,6 @@ y = [righe(1) colonne(1) blocchi(1); righe(2) colonne(2) blocchi(2); righe(3) co
 bar(c,y)
 xlabel('Dimensioni della matrice');
 ylabel('Efficienza E(p)');
-ylim([0 1.1]);
+ylim([0 1.5]);
 title('Analisi comparata con griglia 2x2 con M=N')
 legend('Righe','Colonne','Blocchi','Location','NorthWest')
