@@ -23,7 +23,7 @@ echo ' This job is allocated on '${NCPU}' cpu(s)'
 echo 'Job is running on node(s): '
 cat $PBS_NODEFILE
 
-PBS_O_WORKDIR=$PBS_O_HOME/esercizi/esercizi_open_mp/esercizio_1
+PBS_O_WORKDIR=$PBS_O_HOME/esercizi_open_mp/esercizio_1
 echo ------------------------------------------------------
 echo PBS: qsub is running on $PBS_O_HOST
 echo PBS: originating queue is $PBS_O_QUEUE
@@ -37,7 +37,7 @@ echo PBS: current home directory is $PBS_O_HOME
 echo PBS: PATH = $PBS_O_PATH
 echo ------------------------------------------------------
 
-export OMP_NUM_THREADS=2
+export OMP_NUM_THREADS=6
 export PSC_OMP_AFFINITY=TRUE
 
 gcc -fopenmp -lgomp -lm -o $PBS_O_WORKDIR/esercizio_1 $PBS_O_WORKDIR/esercizio_1.c
