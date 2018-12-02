@@ -37,7 +37,7 @@ echo PBS: current home directory is $PBS_O_HOME
 echo PBS: PATH = $PBS_O_PATH
 echo ------------------------------------------------------
 
-export OMP_NUM_THREADS=2
+export OMP_NUM_THREADS=4
 export PSC_OMP_AFFINITY=TRUE
 
 gcc -fopenmp -lgomp -lm -o $PBS_O_WORKDIR/esercizio_3 $PBS_O_WORKDIR/esercizio_3.c

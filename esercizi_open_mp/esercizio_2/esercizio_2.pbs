@@ -6,7 +6,7 @@
 #                        #
 ##########################
 #PBS -q studenti
-#PBS -l nodes=1:ppn=8
+#PBS -l nodes=1:ppn=2
 #PBS -N esercizio_2
 #PBS -o esercizio_2.out
 #PBS -e esercizio_2.err 

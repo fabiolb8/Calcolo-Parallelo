@@ -1,0 +1,49 @@
+------------------------------------------------------
+ This job is allocated on 2 cpu(s)
+Job is running on node(s): 
+wn273.scope.unina.it
+wn273.scope.unina.it
+------------------------------------------------------
+PBS: qsub is running on ui-studenti.scope.unina.it
+PBS: originating queue is studenti
+PBS: executing queue is studenti
+PBS: working directory is /homes/DIS/CALCPAR/2019/M63000769/esercizi_open_mp/esercizio_2
+PBS: execution mode is PBS_BATCH
+PBS: job identifier is 3928221.torque02.scope.unina.it
+PBS: job name is esercizio_2
+PBS: node file is /var/spool/pbs/aux//3928221.torque02.scope.unina.it
+PBS: current home directory is /homes/DIS/CALCPAR/2019/M63000769
+PBS: PATH = /usr/lib64/openmpi/1.2.7-gcc/bin:/usr/kerberos/bin:/opt/exp_soft/unina.it/intel/composer_xe_2013_sp1.3.174/bin/intel64:/opt/exp_soft/unina.it/intel/composer_xe_2013_sp1.3.174/mpirt/bin/intel64:/opt/exp_soft/unina.it/intel/composer_xe_2013_sp1.3.174/bin/intel64:/opt/exp_soft/unina.it/intel/composer_xe_2013_sp1.3.174/bin/intel64_mic:/opt/exp_soft/unina.it/intel/composer_xe_2013_sp1.3.174/debugger/gui/intel64:/opt/d-cache/srm/bin:/opt/d-cache/dcap/bin:/opt/edg/bin:/opt/glite/bin:/opt/globus/bin:/opt/lcg/bin:/usr/local/bin:/bin:/usr/bin:/opt/exp_soft/HADOOP/hadoop-1.0.3/bin:/opt/exp_soft/unina.it/intel/composerxe/bin/intel64/:/opt/exp_soft/unina.it/MPJExpress/mpj-v0_38/bin:/homes/DIS/CALCPAR/2019/M63000769/bin
+------------------------------------------------------
+[Thread 0] Ciclo 0 SU C
+[Thread 0] Ciclo 1 SU C
+[Thread 0] Ciclo 2 SU C
+[Thread 0] Ciclo 3 SU C
+[Thread 0] Ciclo 4 SU C
+[Thread 0] Ciclo 5 SU C
+[Thread 0] Ciclo 6 SU C
+[Thread 0] Ciclo 7 SU C
+[Thread 0] Ciclo 8 SU C
+[Thread 0] Ciclo 9 SU C
+[Thread 0] Ciclo 10 SU C
+[Thread 0] Ciclo 11 SU C
+[Thread 0] Ciclo 12 SU C
+[Thread 0] Ciclo 13 SU C
+[Thread 0] Ciclo 14 SU C
+[Thread 1] Ciclo 0 SU D
+[Thread 1] Ciclo 1 SU D
+[Thread 1] Ciclo 2 SU D
+[Thread 1] Ciclo 3 SU D
+[Thread 1] Ciclo 4 SU D
+[Thread 1] Ciclo 5 SU D
+[Thread 1] Ciclo 6 SU D
+[Thread 1] Ciclo 7 SU D
+[Thread 1] Ciclo 8 SU D
+[Thread 1] Ciclo 9 SU D
+[Thread 1] Ciclo 10 SU D
+[Thread 1] Ciclo 11 SU D
+[Thread 1] Ciclo 12 SU D
+[Thread 1] Ciclo 13 SU D
+[Thread 1] Ciclo 14 SU D
+[Thread 0] TERMINATO
+[Thread 1] TERMINATO

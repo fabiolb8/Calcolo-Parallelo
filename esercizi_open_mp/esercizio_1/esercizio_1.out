@@ -1,0 +1,37 @@
+------------------------------------------------------
+ This job is allocated on 8 cpu(s)
+Job is running on node(s): 
+wn273.scope.unina.it
+wn273.scope.unina.it
+wn273.scope.unina.it
+wn273.scope.unina.it
+wn273.scope.unina.it
+wn273.scope.unina.it
+wn273.scope.unina.it
+wn273.scope.unina.it
+------------------------------------------------------
+PBS: qsub is running on ui-studenti.scope.unina.it
+PBS: originating queue is studenti
+PBS: executing queue is studenti
+PBS: working directory is /homes/DIS/CALCPAR/2019/M63000769/esercizi_open_mp/esercizio_1
+PBS: execution mode is PBS_BATCH
+PBS: job identifier is 3928115.torque02.scope.unina.it
+PBS: job name is esercizio_1
+PBS: node file is /var/spool/pbs/aux//3928115.torque02.scope.unina.it
+PBS: current home directory is /homes/DIS/CALCPAR/2019/M63000769
+PBS: PATH = /usr/lib64/openmpi/1.2.7-gcc/bin:/usr/kerberos/bin:/opt/exp_soft/unina.it/intel/composer_xe_2013_sp1.3.174/bin/intel64:/opt/exp_soft/unina.it/intel/composer_xe_2013_sp1.3.174/mpirt/bin/intel64:/opt/exp_soft/unina.it/intel/composer_xe_2013_sp1.3.174/bin/intel64:/opt/exp_soft/unina.it/intel/composer_xe_2013_sp1.3.174/bin/intel64_mic:/opt/exp_soft/unina.it/intel/composer_xe_2013_sp1.3.174/debugger/gui/intel64:/opt/d-cache/srm/bin:/opt/d-cache/dcap/bin:/opt/edg/bin:/opt/glite/bin:/opt/globus/bin:/opt/lcg/bin:/usr/local/bin:/bin:/usr/bin:/opt/exp_soft/HADOOP/hadoop-1.0.3/bin:/opt/exp_soft/unina.it/intel/composerxe/bin/intel64/:/opt/exp_soft/unina.it/MPJExpress/mpj-v0_38/bin:/homes/DIS/CALCPAR/2019/M63000769/bin
+------------------------------------------------------
+Primo modo: Ciao sono il thread 1 di 6.
+Primo modo: Ciao sono il thread 3 di 6.
+Primo modo: Ciao sono il thread 0 di 6.
+Primo modo: Ciao sono il thread 2 di 6.
+Primo modo: Ciao sono il thread 5 di 6.
+Primo modo: Ciao sono il thread 4 di 6.
+
+Secondo modo: Ciao sono il thread 1 di 4.
+Secondo modo: Ciao sono il thread 3 di 4.
+Secondo modo: Ciao sono il thread 0 di 4.
+Secondo modo: Ciao sono il thread 2 di 4.
+
+Terzo modo: Ciao sono il thread 1 di 2.
+Terzo modo: Ciao sono il thread 0 di 2.

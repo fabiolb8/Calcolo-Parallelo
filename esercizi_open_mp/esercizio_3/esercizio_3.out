@@ -1,0 +1,68 @@
+------------------------------------------------------
+ This job is allocated on 8 cpu(s)
+Job is running on node(s): 
+wn273.scope.unina.it
+wn273.scope.unina.it
+wn273.scope.unina.it
+wn273.scope.unina.it
+wn273.scope.unina.it
+wn273.scope.unina.it
+wn273.scope.unina.it
+wn273.scope.unina.it
+------------------------------------------------------
+PBS: qsub is running on ui-studenti.scope.unina.it
+PBS: originating queue is studenti
+PBS: executing queue is studenti
+PBS: working directory is /homes/DIS/CALCPAR/2019/M63000769/esercizi_open_mp/esercizio_3
+PBS: execution mode is PBS_BATCH
+PBS: job identifier is 3928235.torque02.scope.unina.it
+PBS: job name is esercizio_3
+PBS: node file is /var/spool/pbs/aux//3928235.torque02.scope.unina.it
+PBS: current home directory is /homes/DIS/CALCPAR/2019/M63000769
+PBS: PATH = /usr/lib64/openmpi/1.2.7-gcc/bin:/usr/kerberos/bin:/opt/exp_soft/unina.it/intel/composer_xe_2013_sp1.3.174/bin/intel64:/opt/exp_soft/unina.it/intel/composer_xe_2013_sp1.3.174/mpirt/bin/intel64:/opt/exp_soft/unina.it/intel/composer_xe_2013_sp1.3.174/bin/intel64:/opt/exp_soft/unina.it/intel/composer_xe_2013_sp1.3.174/bin/intel64_mic:/opt/exp_soft/unina.it/intel/composer_xe_2013_sp1.3.174/debugger/gui/intel64:/opt/d-cache/srm/bin:/opt/d-cache/dcap/bin:/opt/edg/bin:/opt/glite/bin:/opt/globus/bin:/opt/lcg/bin:/usr/local/bin:/bin:/usr/bin:/opt/exp_soft/HADOOP/hadoop-1.0.3/bin:/opt/exp_soft/unina.it/intel/composerxe/bin/intel64/:/opt/exp_soft/unina.it/MPJExpress/mpj-v0_38/bin:/homes/DIS/CALCPAR/2019/M63000769/bin
+------------------------------------------------------
+Matrice quadrata
+0 0 0 0 0 
+1 1 1 1 1 
+2 2 2 2 2 
+3 3 3 3 3 
+4 4 4 4 4 
+Ciao sono il thread 3 di 4.
+Ciao sono il thread 0 di 4.
+[Thread 0] 0 0.
+[Thread 0] 0 1.
+[Thread 0] 0 2.
+[Thread 0] 0 3.
+[Thread 0] 0 4.
+[Thread 0] 1 0.
+[Thread 0] 1 1.
+[Thread 0] 1 2.
+[Thread 0] 1 3.
+Ciao sono il thread 1 di 4.
+Ciao sono il thread 2 di 4.
+[Thread 2] 4 0.
+[Thread 2] 4 1.
+[Thread 2] 4 2.
+[Thread 2] 4 3.
+[Thread 2] 4 4.
+[Thread 1] 2 0.
+[Thread 1] 2 1.
+[Thread 1] 2 2.
+[Thread 1] 2 3.
+[Thread 1] 2 4.
+[Thread 1] 3 0.
+[Thread 1] 3 1.
+[Thread 1] 3 2.
+[Thread 1] 3 3.
+[Thread 1] 3 4.
+[Thread 0] 1 4.
+[Thread 3] TERMINATO
+[Thread 1] TERMINATO
+[Thread 2] TERMINATO
+[Thread 0] TERMINATO
+Matrice trasposta
+0 1 2 3 4 
+0 1 2 3 4 
+0 1 2 3 4 
+0 1 2 3 4 
+0 1 2 3 4 
