@@ -76,7 +76,7 @@ double funzione(double x) {
   y= x / (pow(x, 2) + 5);
   
   //funzione usata per l'esempio di accuratezza
-  //y= 1 + sin(10*x) * (x / (pow(x, 2) + 5));
+  //y = 1 + sin(10*x) * (x / (pow(x, 2) + 5));
 
   return y;
 }
