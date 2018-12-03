@@ -3,9 +3,9 @@
 #include <stdlib.h>
 #include <math.h>
 
-#define m 7000
-#define n 8000
-#define dim_vett 8000
+#define m 7
+#define n 8
+#define dim_vett 8
 
 void printVett(double*, int);
 
@@ -16,6 +16,7 @@ int main( int argc, char *argv[] )
 	double **matrice;
 	double *data_matrice, *risultato, *vettore;
 	double t1, t2;
+	double temp = 0.0;
 
 	//CONTROLLI DI ROBUSTEZZA
 	if (atoi(getenv("OMP_NUM_THREADS")) <= 0) {
@@ -80,16 +81,15 @@ int main( int argc, char *argv[] )
 	
 	
 	//CALCOLO IN PARALLELO
-	#pragma omp parallel for private(i,j) shared (matrice, vettore, risultato)
+	#pragma omp parallel for firstprivate(temp) private(i,j) shared (matrice, vettore, risultato)
 	for (i = 0; i < m; i++) {
 
-		risultato[i] = 0.0;
-
 		for (j = 0; j < n; j++) {
-
-			risultato[i] = risultato[i] + matrice[i][j] * vettore[j];
-
+			//risultato[i] = risultato[i] + matrice[i][j] * vettore[j];
+			temp += matrice[i][j] * vettore[j];
 		}
+		risultato[i] = temp;
+		temp=0.0;
 	}
 	
 	
@@ -99,7 +99,7 @@ int main( int argc, char *argv[] )
 	
 	//STAMPA RISULTATO
 	printf("[Thread %d] Il risultato è pari a \n",omp_get_thread_num());
-	//printVett(risultato, m);
+	printVett(risultato, m);
 	printf("Il tempo di esecuzione totale è stato di %.16lf secondi.\n", t2-t1);
 	
 	
