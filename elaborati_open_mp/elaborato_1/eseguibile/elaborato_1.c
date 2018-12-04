@@ -5,7 +5,7 @@
 
 #define a 0.0
 #define b 1.0
-#define num_intervalli 100000.5
+#define num_intervalli 100000
 
 double funzione(double);
 
@@ -50,7 +50,7 @@ int main( int argc, char *argv[] )
 	t1 = omp_get_wtime();
 	
 	#pragma omp parallel for private(i) reduction(+:somma) 
-	for (i=1; i<(int)num_intervalli; i++){
+	for (i=1; i<num_intervalli; i++){
 		somma += funzione(a+i*h);
 	}
 	
