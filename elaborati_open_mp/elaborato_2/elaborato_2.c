@@ -88,13 +88,13 @@ int main( int argc, char *argv[] )
 	t1 = omp_get_wtime();
 	
 	
-	//CALCOLO IN PARALLELO
+	//CALCOLO IN PARALLELO (ATTENZIONE : MATRICE SEMPRE PER RIGHE IN TAL CASO (?))
 	#pragma omp parallel for firstprivate(temp) private(i,j) shared (matrice, vettore, risultato)
 	for (i = 0; i < m; i++) {
 		for (j = 0; j < n; j++) {
 			temp += matrice[i][j] * vettore[j];
 		}
-		risultato[i] = temp;
+		risultato[i] = temp; //ATTENZIONE : FALSE SHARING A LIVELLO DI RIGA !!!!! (?)
 		temp=0.0;
 	}
 	
