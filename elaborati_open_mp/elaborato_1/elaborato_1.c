@@ -5,7 +5,7 @@
 
 #define a 0.0
 #define b 1.0
-#define num_intervalli 100000.5
+#define num_intervalli 100000
 
 double funzione(double);
 
