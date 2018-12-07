@@ -4,9 +4,10 @@
 #include <omp.h>
 #include <math.h>
 
-#define m 500000
-#define n 1000
-#define dim_vett 1000
+#define m 20000
+#define n 15000
+#define dim_vett 15000
+#define numcore 16
 
 void printVettF(double*, int, int);
 
@@ -36,10 +37,15 @@ int main(int argc, char *argv[])
 
 	//Controlli di robustezza delegati al processo 0
 	if (myrank == 0) {
+		
+		if(numcore<=0 || (floor((double)numcore) != (double)numcore)){
+			printf("Errore! Il parametro numcore deve essere un intero positivo\n");
+			MPI_Abort(MPI_COMM_WORLD, 1);
+		}
 
 		if (atoi(getenv("OMP_NUM_THREADS")) <= 0) {
 			printf("Errore! Il numero dei threads deve essere positivo\n");
-			exit(1);
+			MPI_Abort(MPI_COMM_WORLD, 1);
 		}
 
 		if (numprocs <= 0) {
@@ -47,6 +53,11 @@ int main(int argc, char *argv[])
 			MPI_Abort(MPI_COMM_WORLD, 1);
 		}
 
+		if ( atoi(getenv("OMP_NUM_THREADS")) * numprocs != numcore){
+			printf("Errore! Il numero totale di core deve essere pari a %d\n",numcore);
+			MPI_Abort(MPI_COMM_WORLD, 1);
+		}
+		
 		if ((floor((double)m) != (double)m) || (floor((double)n) != (double)n) || (floor((double)dim_vett) != (double)dim_vett)) {
 			printf("Errore! Le dimensioni della matrice e del vettore devono essere valori interi\n");
 			MPI_Abort(MPI_COMM_WORLD, 1);
@@ -66,6 +77,8 @@ int main(int argc, char *argv[])
 			printf("Errore! Le dimensioni non sono coerenti\n");
 			MPI_Abort(MPI_COMM_WORLD, 1);
 		}
+		
+		
 
 	}
 	MPI_Barrier(MPI_COMM_WORLD);
@@ -192,14 +205,13 @@ int main(int argc, char *argv[])
 		t1 = MPI_Wtime();
 	}
 
-	//Prodotto matrice vettore
-	//prodottoMatriceVettore(sotto_matrice, dimRecv[myrank] / n, n, vettore, risultato_parziale);
+	//Prodotto matrice vettore su shared-memory
 	#pragma omp parallel for firstprivate(temp) private(i,j) shared (sotto_matrice, vettore, risultato)
 	for (i = 0; i < dimRecv[myrank] / n; i++) {
 		for (j = 0; j < n; j++) {
 			temp += sotto_matrice[i][j] * vettore[j];
 		}
-		risultato_parziale[i] = temp; //ATTENZIONE : FALSE SHARING A LIVELLO DI RIGA !!!!! (?)
+		risultato_parziale[i] = temp;
 		temp=0.0;
 	}
 
