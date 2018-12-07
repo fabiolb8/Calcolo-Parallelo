@@ -16,7 +16,7 @@ c = [table2array(tabella_efficienza_rmaggc(:,1)),table2array(tabella_efficienza_
 figure(2)
 plot(p,c(:,1),'-*',p,c(:,2),'-o',p,c(:,3),'-+',p,[1 1 1],'--','LineWidth',2)
 title('Analisi con N=1000 e M>N')
-legend('M=5000','M=50000','M=50000','Efficienza ideale','Location','SouthEast')
+legend('M=5000','M=50000','M=500000','Efficienza ideale','Location','SouthEast')
 xlim([p(1) p(3)])
 ylim([0 1.05])
 xlabel('Numero di thread');

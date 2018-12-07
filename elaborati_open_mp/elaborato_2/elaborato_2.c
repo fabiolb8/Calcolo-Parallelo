@@ -3,9 +3,9 @@
 #include <stdlib.h>
 #include <math.h>
 
-#define m 1000
-#define n 500000
-#define dim_vett 500000
+#define m 7
+#define n 8
+#define dim_vett 8
 
 void printVett(double*, int);
 
@@ -57,44 +57,43 @@ int main( int argc, char *argv[] )
 		matrice[i] = &(data_matrice[i*n]);
 	}
 
-	//printf("[Thread %d] Matrice :\n", omp_get_thread_num());
+	printf("[Thread %d] Matrice :\n", omp_get_thread_num());
 	
 	for (i = 0; i < m; i++) {
 	
 		for (j = 0; j < n; j++) {
 
-			//matrice[i][j] = (double)i + 1.0;
-			matrice[i][j] = (double)(i+1.0) * M_PI;
-			//printf("%lf ", matrice[i][j]);
+			matrice[i][j] = (double)i + 1.0;
+			printf("%lf ", matrice[i][j]);
 		}
 		
-		//printf("\n");
+		printf("\n");
 	}
 	
 	printf("\n");
-	//printf("[Thread %d] Vettore :\n", omp_get_thread_num());
+	printf("[Thread %d] Vettore :\n", omp_get_thread_num());
 
 
 	//Inizializzazione VETTORE
 	for (i = 0; i < n; i++) {
 
-		vettore[i] = 1.0;
+		vettore[i] = M_PI;
 	}
 	
-	//printVett(vettore,n);
-	//printf("\n");
+	printVett(vettore,n);
+	printf("\n");
 	
 	//INIZIO TEMPI
 	t1 = omp_get_wtime();
 	
 	
-	//CALCOLO IN PARALLELO (ATTENZIONE : MATRICE SEMPRE PER RIGHE IN TAL CASO (?))
+	//CALCOLO IN PARALLELO
 	#pragma omp parallel for firstprivate(temp) private(i,j) shared (matrice, vettore, risultato)
 	for (i = 0; i < m; i++) {
 		for (j = 0; j < n; j++) {
 			temp += matrice[i][j] * vettore[j];
 		}
-		risultato[i] = temp; //ATTENZIONE : FALSE SHARING A LIVELLO DI RIGA !!!!! (?)
+		risultato[i] = temp;
 		temp=0.0;
 	}
 	
@@ -104,8 +103,8 @@ int main( int argc, char *argv[] )
 	
 	
 	//STAMPA RISULTATO
-	//printf("[Thread %d] Il vettore risultato è pari a \n",omp_get_thread_num());
-	//printVett(risultato, m);
+	printf("[Thread %d] Il vettore risultato è pari a \n",omp_get_thread_num());
+	printVett(risultato, m);
 	printf("Il tempo di esecuzione totale è stato di %.16lf secondi.\n", t2-t1);
 	
 	

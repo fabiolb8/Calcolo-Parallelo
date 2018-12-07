@@ -11,9 +11,9 @@ PBS: originating queue is studenti
 PBS: executing queue is studenti
 PBS: working directory is /homes/DIS/CALCPAR/2019/M63000769/elaborati_open_mp/elaborato_2
 PBS: execution mode is PBS_BATCH
-PBS: job identifier is 3929214.torque02.scope.unina.it
+PBS: job identifier is 3929721.torque02.scope.unina.it
 PBS: job name is elaborato_2
-PBS: node file is /var/spool/pbs/aux//3929214.torque02.scope.unina.it
+PBS: node file is /var/spool/pbs/aux//3929721.torque02.scope.unina.it
 PBS: current home directory is /homes/DIS/CALCPAR/2019/M63000769
 PBS: PATH = /usr/lib64/openmpi/1.2.7-gcc/bin:/usr/kerberos/bin:/opt/exp_soft/unina.it/intel/composer_xe_2013_sp1.3.174/bin/intel64:/opt/exp_soft/unina.it/intel/composer_xe_2013_sp1.3.174/mpirt/bin/intel64:/opt/exp_soft/unina.it/intel/composer_xe_2013_sp1.3.174/bin/intel64:/opt/exp_soft/unina.it/intel/composer_xe_2013_sp1.3.174/bin/intel64_mic:/opt/exp_soft/unina.it/intel/composer_xe_2013_sp1.3.174/debugger/gui/intel64:/opt/d-cache/srm/bin:/opt/d-cache/dcap/bin:/opt/edg/bin:/opt/glite/bin:/opt/globus/bin:/opt/lcg/bin:/usr/local/bin:/bin:/usr/bin:/opt/exp_soft/HADOOP/hadoop-1.0.3/bin:/opt/exp_soft/unina.it/intel/composerxe/bin/intel64/:/opt/exp_soft/unina.it/MPJExpress/mpj-v0_38/bin:/homes/DIS/CALCPAR/2019/M63000769/bin
 ------------------------------------------------------
@@ -47,4 +47,4 @@ PBS: PATH = /usr/lib64/openmpi/1.2.7-gcc/bin:/usr/kerberos/bin:/opt/exp_soft/uni
 125.6637061435917389 
 150.7964473723100411 
 175.9291886010284429 
-Il tempo di esecuzione totale è stato di 0.0041349999955855 secondi.
+Il tempo di esecuzione totale è stato di 0.0054500000042026 secondi.
