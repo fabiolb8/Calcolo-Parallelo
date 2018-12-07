@@ -1,6 +1,6 @@
 %% FASE ACQUISIZIONE RISULTATI SCOPE
 
-risultato_scope = xlsread('test_accuratezza_ibrido.xlsx','C4:I4');
+risultato_scope = xlsread('test_ibrido.xlsx','C4:I4');
 risultato_scope = risultato_scope'
 
 %% ACQUISIZIONE RISULTATI IN MATLAB - 10^5 ELEMENTI
