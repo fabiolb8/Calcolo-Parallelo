@@ -4,10 +4,10 @@
 #include <omp.h>
 #include <math.h>
 
-#define m 20000
-#define n 15000
-#define dim_vett 15000
-#define numcore 16
+#define m 7
+#define n 8
+#define dim_vett 8
+#define numcore 4
 
 void printVettF(double*, int, int);
 
@@ -226,7 +226,7 @@ int main(int argc, char *argv[])
 		t2 = MPI_Wtime();
 
 		printf("Sono il processo %d. Il vettore risultato di %d righe è :\n", myrank, m);
-		//printVettF(risultato, m, myrank);
+		printVettF(risultato, m, myrank);
 		printf("\nSono il processo %d: tempo di esecuzione totale di %.16lf secondi.\n", myrank, t2 - t1);
 	}
 
