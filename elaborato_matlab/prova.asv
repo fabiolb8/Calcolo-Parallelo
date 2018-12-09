@@ -1,0 +1,41 @@
+numCore=feature('numCores');
+%%
+pool=parpool(numCore);
+%% prodotto 
+N=[100 500 1000 5000 10000];
+tempi_seq=zeros(1,length(N));
+tempi_par=zeros(1,length(N));
+tempi_matlab=zeros(1,length(N));
+tempi_gpu=zeros(1,length(N));
+%%
+for i=1:length(N)
+    %A=rand(N(i),N(i));
+    %B=rand(N(i),N(i));
+    
+    %matrici di prova
+    A=[1 2 3 4; 5 6 7 8; 1 2 3 4; 5 6 7 8];
+    B=[1 2 3 4; 5 6 7 8; 1 2 3 4; 5 6 7 8];
+    
+    %C=zeros(N(i),N(i));
+    C=zeros(4,4);
+    
+    %1 sequenziale
+    C=A*B;
+    
+    %%
+    %2 com spmd
+    tic;
+    spmd
+    C=A*B;
+    end
+    tempi_seq(i)=toc;
+    
+    %% %risultato esatto
+    
+    %%
+    %2
+    dim=4;
+    tic;
+    C=prodMatriciPar(A,B,dim);
+    tempi_par(i)=toc;
+end
