@@ -1,7 +1,6 @@
-function tempo = julia_cpu(x,c,n,iterazioni)
+function julia_cpu(x,c,n,iterazioni,~)
 %x=1.5, c=-0.75, n=400, iterazioni=20
 % insieme Julia set
-T=tic;
 f = @(x) x.^2+c;
 xval=linspace(-x,x,n);
 yval=xval;
@@ -11,8 +10,12 @@ for k=1:iterazioni
 	Z=f(Z);
 end
 W = exp(-abs(Z));
-tempo=toc(T);
-imagesc(W);
-colormap(prism(256))
-shading flat;
-axis('square','equal','off');
+
+if nargin==5
+    imagesc(W);
+    colormap(prism(256))
+    shading flat;
+    axis('square','equal','off');
+end
+
+end
