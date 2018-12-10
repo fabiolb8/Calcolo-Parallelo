@@ -1,36 +1,36 @@
-%% PRODOTTO RIGHE PER COLONNE TRA DUE MATRICI
+%% Prodotto tra matrici
 
-%% Dati per l'analisi dei tempi
-N=[500 1000 1500 2000 2500];
-tempi_cpu=zeros(1,length(N));
-tempi_gpu=zeros(1,length(N));
+N = [100 500 1000 1500];
+tempo_cpu_3 = zeros(1, length(N));
+tempo_gpu_3 = zeros(1, length(N));
 
-%% Esecuzione test su cpu
 for i=1:length(N)
     
-    %Allocazione matrici 
-    tic;
-    A=rand(N(i),N(i));
-    B=rand(N(i),N(i));
-    C=A*B;
-    tempi_cpu(i)=toc;
+    %Esecuzione su cpu
     
-    %Esecuzione test su gpu
+    tic;
+    A = rand(N(i),N(i));
+    B = rand(N(i),N(i));
+    C = A*B;
+    tempo_cpu_3(i) = toc;
+    
+    %Esecuzione su gpu
+    
     gpuDevice;
     
     tic;
-    A_gpu=gpuArray(A);
-    B_gpu=gpuArray(B);
-    C_gpu=A_gpu*B_gpu;
-    %C=gather(C_gpu);
-    tempi_gpu(i)=toc;
+    A_gpu = gpuArray(A);
+    B_gpu = gpuArray(B);
+    C_gpu = A_gpu*B_gpu;
+    tempo_gpu_3(i) = toc;
+    
+    
 end
 
-%% Risultati
-plot(N,tempi_gpu,'b.-',N,tempi_cpu,'r.-');
+%% Grafico
+plot(N,tempo_cpu_3,'b.-',N,tempo_gpu_3,'r.-','LineWidth',0.6);
+legend('CPU','GPU','Location','NorthWest');
 xlim([N(1) N(length(N))]);
-legend('gpu','cpu');
-
-
-
-
+title('Grafico tempi');
+xlabel('Dimensione matrice');
+ylabel('Tempo (secondi)');
