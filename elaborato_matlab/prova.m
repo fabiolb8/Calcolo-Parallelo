@@ -1,13 +1,12 @@
 numCore=feature('numCores');
 %%
 pool=parpool(numCore);
-%% prodotto 
-N=[100 500 1000 5000 10000];
-tempi_seq=zeros(1,length(N));
-tempi_par=zeros(1,length(N));
-tempi_matlab=zeros(1,length(N));
+%% %PRODOTTO MAT MAT
+%% dati per tempi
+N=[100 250 500 750 1000 2500 5000];
+tempi_cpu=zeros(1,length(N));
 tempi_gpu=zeros(1,length(N));
-%%
+%% esecuzione
 for i=1:length(N)
     A=rand(N(i),N(i));
     B=rand(N(i),N(i));
@@ -19,10 +18,19 @@ for i=1:length(N)
     C=A*B;
     tempi_seq(i)=toc;
     
-    %2 com spmd
+    gpuDev=gpuDevice;
+    reset(gpuDev);
+    
+    %3 con gpuarray
     tic;
-    spmd
-    C=A*B;
-    end
-    tempi_par(i)=toc;
+    A_gpu=gpuArray(A);
+    B_gpu=gpuArray(B);
+    C_gpu=A_gpu*B_gpu;
+    tempi_gpu(i)=toc;
+    
 end
+
+
+
+
+
