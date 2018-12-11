@@ -21,6 +21,6 @@ end
 plot(N,tempo_for_1,'b.-',N,tempo_parfor_1,'r.-','LineWidth',0.8);
 legend('Inizializzazione con for','Inizializzazione con parfor','Location','NorthWest');
 xlim([N(1) N(length(N))]);
-title('Grafico tempi');
+title('Tempi inizializzazione matrice');
 xlabel('Dimensione matrice');
 ylabel('Tempo (secondi)');
